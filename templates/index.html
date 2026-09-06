@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SENTINEL-X | SOC Threat Defense Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="dashboard-container">
+      <header class="top-nav">
+        <div class="brand">
+          <span class="pulse-icon"></span>
+          <h1>SENTINEL-X</h1>
+          <span class="sub-brand">AI/SOC Threat Triage Node</span>
+        </div>
+        <div class="system-status">
+          <span class="status-pill online">PIPELINE ACTIVE</span>
+        </div>
+      </header>
+
+      <section class="metrics-grid">
+        <div class="card metric-card">
+          <h3>Total Flagged Incidents</h3>
+          <div class="metric-value" id="metric-total">0</div>
+          <div class="metric-sub">Ingested Log Events</div>
+        </div>
+        <div class="card metric-card critical">
+          <h3>Confirmed Malicious Actors</h3>
+          <div class="metric-value" id="metric-malicious">0</div>
+          <div class="metric-sub">Confidence Score &gt; 50%</div>
+        </div>
+        <div class="card metric-card">
+          <h3>Unique Threat IPs</h3>
+          <div class="metric-value" id="metric-ips">0</div>
+          <div class="metric-sub">Correlated External Vectors</div>
+        </div>
+      </section>
+
+      <section class="card table-container">
+        <div class="table-header">
+          <h2>Real-Time Security Event Correlation</h2>
+          <button class="refresh-btn" onclick="fetchSecurityData()">
+            Refresh Feeds
+          </button>
+        </div>
+        <table class="threat-table">
+          <thead>
+            <tr>
+              <th>Source IP</th>
+              <th>Origin</th>
+              <th>Classification</th>
+              <th>Target Payload</th>
+              <th>Abuse Score</th>
+              <th>Severity</th>
+            </tr>
+          </thead>
+          <tbody id="incidents-body">
+            <tr>
+              <td colspan="6" class="loading-state">
+                Analyzing log sequences...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  </body>
+</html>

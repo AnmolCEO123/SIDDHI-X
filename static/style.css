@@ -1,0 +1,193 @@
+:root {
+  --bg-base: #0a0e17;
+  --bg-card: #111827;
+  --border-color: #1f2937;
+  --text-main: #f3f4f6;
+  --text-muted: #9ca3af;
+  --cyan: #00f2fe;
+  --red: #ff3366;
+  --orange: #f59e0b;
+  --green: #10b981;
+}
+
+body {
+  margin: 0;
+  padding: 24px;
+  background-color: var(--bg-base);
+  color: var(--text-main);
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.dashboard-container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pulse-icon {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: var(--cyan);
+  box-shadow: 0 0 10px var(--cyan);
+}
+
+.brand h1 {
+  font-size: 20px;
+  letter-spacing: 2px;
+  margin: 0;
+  color: var(--cyan);
+}
+
+.sub-brand {
+  font-size: 13px;
+  color: var(--text-muted);
+  border-left: 1px solid var(--border-color);
+  padding-left: 12px;
+}
+
+.status-pill {
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  border-radius: 9999px;
+}
+
+.status-pill.online {
+  background: rgba(0, 242, 254, 0.1);
+  color: var(--cyan);
+  border: 1px solid var(--cyan);
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.metric-card h3 {
+  margin: 0 0 8px 0;
+  font-size: 13px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.metric-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--cyan);
+}
+
+.critical .metric-value {
+  color: var(--red);
+}
+
+.metric-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.table-container {
+  padding: 24px;
+}
+
+.table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.table-header h2 {
+  font-size: 16px;
+  margin: 0;
+}
+
+.refresh-btn {
+  background: transparent;
+  border: 1px solid var(--cyan);
+  color: var(--cyan);
+  padding: 6px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+.refresh-btn:hover {
+  background: var(--cyan);
+  color: var(--bg-base);
+}
+
+.threat-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.threat-table th {
+  text-align: left;
+  color: var(--text-muted);
+  padding: 12px;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.threat-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+code {
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 3px 6px;
+  border-radius: 4px;
+  color: var(--orange);
+  font-family: monospace;
+}
+
+.badge {
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.badge.malicious {
+  background: rgba(255, 51, 102, 0.2);
+  color: var(--red);
+}
+.badge.suspicious {
+  background: rgba(245, 158, 11, 0.2);
+  color: var(--orange);
+}
+.badge.clean {
+  background: rgba(16, 185, 129, 0.2);
+  color: var(--green);
+}
