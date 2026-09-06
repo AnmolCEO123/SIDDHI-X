@@ -3,72 +3,128 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SENTINEL-X | SOC Threat Defense Dashboard</title>
+    <title>SIDDHI-X | Enterprise Threat Detection Console</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
     />
+    <link rel="stylesheet" href="/static/style.css" />
   </head>
   <body>
-    <div class="dashboard-container">
-      <header class="top-nav">
-        <div class="brand">
-          <span class="pulse-icon"></span>
-          <h1>SENTINEL-X</h1>
-          <span class="sub-brand">AI/SOC Threat Triage Node</span>
+    <!-- Top Navigation Bar -->
+    <header class="navbar">
+      <div class="brand">
+        <div class="shield-icon">
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
         </div>
-        <div class="system-status">
-          <span class="status-pill online">PIPELINE ACTIVE</span>
+        <div>
+          <div class="logo">
+            SIDDHI-X <span class="badge-accent">DEFENSE CORE</span>
+          </div>
+          <div class="subtitle">
+            Security Intelligence, Detection, Defense & Heuristic Inspection
+          </div>
         </div>
-      </header>
+      </div>
 
+      <div class="sys-status">
+        <div class="live-pulse"></div>
+        <span class="status-text">INGESTION PIPELINE ACTIVE</span>
+        <span class="source-tag">SOURCE: SERVER.LOG</span>
+      </div>
+    </header>
+
+    <main class="container">
+      <!-- Telemetry Metric Cards -->
       <section class="metrics-grid">
-        <div class="card metric-card">
-          <h3>Total Flagged Incidents</h3>
-          <div class="metric-value" id="metric-total">0</div>
-          <div class="metric-sub">Ingested Log Events</div>
+        <div class="metric-card">
+          <div class="metric-label">TOTAL LOG EVENTS</div>
+          <div class="metric-val" id="total-logs">0</div>
+          <div class="metric-sub">Processed Ingestion Records</div>
         </div>
-        <div class="card metric-card critical">
-          <h3>Confirmed Malicious Actors</h3>
-          <div class="metric-value" id="metric-malicious">0</div>
-          <div class="metric-sub">Confidence Score &gt; 50%</div>
+        <div class="metric-card alert-card">
+          <div class="metric-label">CONFIRMED INCIDENTS</div>
+          <div class="metric-val text-red" id="total-threats">0</div>
+          <div class="metric-sub">Heuristic Rule Triggered</div>
         </div>
-        <div class="card metric-card">
-          <h3>Unique Threat IPs</h3>
-          <div class="metric-value" id="metric-ips">0</div>
-          <div class="metric-sub">Correlated External Vectors</div>
+        <div class="metric-card">
+          <div class="metric-label">MALICIOUS ACTORS</div>
+          <div class="metric-val text-amber" id="malicious-actors">0</div>
+          <div class="metric-sub">Abuse Confidence &gt; 0%</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">UNIQUE CLIENT IPS</div>
+          <div class="metric-val text-cyan" id="unique-ips">0</div>
+          <div class="metric-sub">Tracked Ingestion Endpoints</div>
         </div>
       </section>
 
-      <section class="card table-container">
+      <!-- Incident Triage Terminal Table -->
+      <section class="table-container">
         <div class="table-header">
-          <h2>Real-Time Security Event Correlation</h2>
-          <button class="refresh-btn" onclick="fetchSecurityData()">
-            Refresh Feeds
-          </button>
+          <div class="table-title">
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="8" x2="12" y2="12"></line>
+              <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            ACTIVE SECURITY INCIDENTS &amp; THREAT TELEMETRY
+          </div>
+          <div class="table-aux">ENRICHED VIA ABUSEIPDB API</div>
         </div>
-        <table class="threat-table">
-          <thead>
-            <tr>
-              <th>Source IP</th>
-              <th>Origin</th>
-              <th>Classification</th>
-              <th>Target Payload</th>
-              <th>Abuse Score</th>
-              <th>Severity</th>
-            </tr>
-          </thead>
-          <tbody id="incidents-body">
-            <tr>
-              <td colspan="6" class="loading-state">
-                Analyzing log sequences...
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
-    </div>
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>SOURCE IP</th>
+                <th>ORIGIN</th>
+                <th>ATTACK VECTOR</th>
+                <th>TARGET ENDPOINT / PAYLOAD</th>
+                <th>THREAT SCORE</th>
+                <th>SEVERITY</th>
+              </tr>
+            </thead>
+            <tbody id="incidents-body">
+              <tr>
+                <td colspan="6" class="loading-state">
+                  <span class="spinner"></span> Awaiting telemetry
+                  synchronization...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>SYSTEM: SIDDHI-X DEFENSIVE SIEM PIPELINE</span>
+      <span>STATUS: OPERATIONAL (PORT 5000)</span>
+    </footer>
+
+    <script src="/static/script.js"></script>
   </body>
 </html>
