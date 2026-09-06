@@ -236,6 +236,19 @@ def report_page():
     return render_template("report.html", report=report_data)
 
 
+@app.after_request
+def add_security_headers(response):
+    response.headers["Strict-Transport-Security"] = (
+        "max-age=31536000; includeSubDomains"
+    )
+    response.headers["Content-Security-Policy"] = (
+        "default-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://fonts.gstatic.com"
+    )
+    response.headers["X-Frame-Options"] = "SAMEORIGIN"
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    return response
+
+
 @app.route("/api/incidents")
 def get_incidents():
     incidents, total_logs = parse_server_logs()
