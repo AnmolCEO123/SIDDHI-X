@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SIDDHI-X | Intelligence & Security Audit Report</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/style.css" />
+    <style>
+      .report-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 20px;
+        margin-top: 24px;
+      }
+      .info-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px solid #1e293b;
+        font-size: 0.85rem;
+      }
+      .info-label {
+        color: #94a3b8;
+        font-weight: 500;
+      }
+      .info-val {
+        font-family: "JetBrains Mono", monospace;
+        color: #f8fafc;
+        font-weight: 600;
+      }
+      .btn-back {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 18px;
+        background: #1e293b;
+        color: #38bdf8;
+        text-decoration: none;
+        border-radius: 6px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        transition: background 0.2s;
+      }
+      .btn-back:hover {
+        background: #334155;
+      }
+      .status-pill {
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        font-family: "JetBrains Mono", monospace;
+      }
+      .pill-pass {
+        background: rgba(16, 185, 129, 0.15);
+        color: #10b981;
+        border: 1px solid rgba(16, 185, 129, 0.3);
+      }
+      .pill-fail {
+        background: rgba(239, 68, 68, 0.15);
+        color: #ef4444;
+        border: 1px solid rgba(239, 68, 68, 0.3);
+      }
+    </style>
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="brand">
+        <div class="shield-icon">
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+        </div>
+        <div>
+          <div class="logo">
+            SIDDHI-X <span class="badge-accent">AUDIT REPORT</span>
+          </div>
+          <div class="subtitle">
+            Deep Target Intelligence & Network Perimeter Profile
+          </div>
+        </div>
+      </div>
+      <div>
+        <a href="/" class="btn-back">← Back to Console</a>
+      </div>
+    </header>
+
+    <main class="container">
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 20px;
+        "
+      >
+        <div>
+          <h2 style="font-size: 1.4rem; font-weight: 700">
+            Target:
+            <span style="color: var(--cyan-glow)"
+              >{{ report.domain or report.target_ip }}</span
+            >
+          </h2>
+          <div style="font-size: 0.8rem; color: #94a3b8; margin-top: 4px">
+            Resolved Endpoint: {{ report.target_ip }}
+          </div>
+        </div>
+        <div style="text-align: right">
+          <div style="font-size: 0.75rem; color: #94a3b8">RISK SEVERITY</div>
+          <span
+            class="badge-severity {% if report.severity == 'CRITICAL' %}badge-critical{% elif report.severity == 'HIGH' %}badge-high{% elif report.severity == 'MEDIUM' %}badge-high{% else %}badge-benign{% endif %}"
+          >
+            {{ report.severity }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Top KPI Highlights -->
+      <section class="metrics-grid">
+        <div class="metric-card">
+          <div class="metric-label">ABUSE CONFIDENCE SCORE</div>
+          <div
+            class="metric-val"
+            style="color: {% if report.intel.score > 50 %}#ef4444{% else %}#10b981{% endif %};"
+          >
+            {{ report.intel.score }}%
+          </div>
+          <div class="metric-sub">AbuseIPDB Global Database</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">IP REPUTATION VERDICT</div>
+          <div class="metric-val text-cyan">{{ report.intel.verdict }}</div>
+          <div class="metric-sub">
+            Country Origin: {{ report.intel.country }}
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">DETECTED SIGNATURE</div>
+          <div
+            class="metric-val text-amber"
+            style="font-size: 1.1rem; padding-top: 10px"
+          >
+            {{ report.attack_type }}
+          </div>
+          <div class="metric-sub">MITRE / Pattern Inspection</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">NETWORK PORTS ACTIVE</div>
+          <div class="metric-val text-cyan">
+            {% if report.open_ports %}{{ report.open_ports | join(', ') }}{%
+            else %}None Disclosed{% endif %}
+          </div>
+          <div class="metric-sub">Web TCP Handshake</div>
+        </div>
+      </section>
+
+      <div class="report-grid">
+        <!-- Network Reconnaissance Card -->
+        <div class="metric-card">
+          <div
+            class="metric-label"
+            style="color: var(--cyan-glow); margin-bottom: 12px"
+          >
+            PERIMETER & TECHNOLOGY FINGERPRINT
+          </div>
+
+          <div class="info-item">
+            <span class="info-label">Domain Name</span>
+            <span class="info-val">{{ report.domain or 'N/A' }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">IPv4 Address</span>
+            <span class="info-val">{{ report.target_ip }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Geographical Origin</span>
+            <span class="info-val"
+              ><span class="badge-country"
+                >{{ report.intel.country }}</span
+              ></span
+            >
+          </div>
+          <div class="info-item">
+            <span class="info-label">Web Server Banner</span>
+            <span class="info-val">{{ report.server_tech }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Application Framework</span>
+            <span class="info-val">{{ report.powered_by }}</span>
+          </div>
+        </div>
+
+        <!-- Defensive Security Headers Audit Card -->
+        <div class="metric-card">
+          <div
+            class="metric-label"
+            style="color: var(--cyan-glow); margin-bottom: 12px"
+          >
+            DEFENSIVE SECURITY HEADERS POSTURE
+          </div>
+
+          <div class="info-item">
+            <span class="info-label">Strict-Transport-Security (HSTS)</span>
+            <span
+              class="status-pill {% if 'HSTS' in report.security_headers.passed %}pill-pass{% else %}pill-fail{% endif %}"
+            >
+              {% if 'HSTS' in report.security_headers.passed %}ENFORCED{% else
+              %}MISSING{% endif %}
+            </span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Content-Security-Policy (CSP)</span>
+            <span
+              class="status-pill {% if 'CSP' in report.security_headers.passed %}pill-pass{% else %}pill-fail{% endif %}"
+            >
+              {% if 'CSP' in report.security_headers.passed %}PROTECTED{% else
+              %}MISSING{% endif %}
+            </span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">X-Frame-Options (Clickjacking)</span>
+            <span
+              class="status-pill {% if 'X-Frame-Options' in report.security_headers.passed %}pill-pass{% else %}pill-fail{% endif %}"
+            >
+              {% if 'X-Frame-Options' in report.security_headers.passed
+              %}SECURED{% else %}MISSING{% endif %}
+            </span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">X-Content-Type-Options</span>
+            <span
+              class="status-pill {% if 'X-Content-Type-Options' in report.security_headers.passed %}pill-pass{% else %}pill-fail{% endif %}"
+            >
+              {% if 'X-Content-Type-Options' in report.security_headers.passed
+              %}NOSNIFF{% else %}MISSING{% endif %}
+            </span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Input Query / Endpoint</span>
+            <span class="info-val" style="color: #94a3b8; font-size: 0.75rem"
+              >{{ report.raw_input }}</span
+            >
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <span>SYSTEM: SIDDHI-X DEFENSIVE SIEM PIPELINE</span>
+      <span>PROFILE GENERATED LOCALLY</span>
+    </footer>
+  </body>
+</html>

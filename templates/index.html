@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="/static/style.css" />
   </head>
   <body>
-    <!-- Top Navigation Bar -->
     <header class="navbar">
       <div class="brand">
         <div class="shield-icon">
@@ -32,7 +31,7 @@
         </div>
         <div>
           <div class="logo">
-            SIDDHI-X <span class="badge-accent">DEFENSE CORE</span>
+            SIDDHI-X <span class="badge-accent">DEFENSE CORE v2.4</span>
           </div>
           <div class="subtitle">
             Security Intelligence, Detection, Defense & Heuristic Inspection
@@ -43,12 +42,11 @@
       <div class="sys-status">
         <div class="live-pulse"></div>
         <span class="status-text">INGESTION PIPELINE ACTIVE</span>
-        <span class="source-tag">SOURCE: SERVER.LOG</span>
+        <span class="source-tag">SERVER.LOG</span>
       </div>
     </header>
 
     <main class="container">
-      <!-- Telemetry Metric Cards -->
       <section class="metrics-grid">
         <div class="metric-card">
           <div class="metric-label">TOTAL LOG EVENTS</div>
@@ -68,11 +66,54 @@
         <div class="metric-card">
           <div class="metric-label">UNIQUE CLIENT IPS</div>
           <div class="metric-val text-cyan" id="unique-ips">0</div>
-          <div class="metric-sub">Tracked Ingestion Endpoints</div>
+          <div class="metric-sub">Tracked Endpoints</div>
         </div>
       </section>
 
-      <!-- Incident Triage Terminal Table -->
+      <!-- Interactive Live Log Inspector -->
+      <section class="metric-card" style="margin-bottom: 26px">
+        <div
+          class="metric-label"
+          style="margin-bottom: 10px; color: var(--cyan-glow)"
+        >
+          LIVE LOG &amp; PAYLOAD INSPECTOR (INTERACTIVE TRIAGE)
+        </div>
+        <div style="display: flex; gap: 12px; flex-wrap: wrap">
+          <input
+            type="text"
+            id="custom-log-input"
+            placeholder="Paste log line or suspicious URL (e.g. 185.220.101.5 - GET /login?id=' OR '1'='1)"
+            style="
+              flex: 1;
+              min-width: 280px;
+              padding: 12px 16px;
+              border-radius: 8px;
+              border: 1px solid #1e293b;
+              background: #070e1b;
+              color: #fff;
+              font-family: &quot;JetBrains Mono&quot;, monospace;
+              font-size: 0.85rem;
+            "
+          />
+          <button
+            id="btn-analyze"
+            onclick="analyzeCustomInput()"
+            style="
+              padding: 12px 24px;
+              background: var(--cyan-glow);
+              color: #070a13;
+              font-weight: 700;
+              border: none;
+              border-radius: 8px;
+              cursor: pointer;
+              letter-spacing: 0.5px;
+            "
+          >
+            INSPECT LOG
+          </button>
+        </div>
+      </section>
+
       <section class="table-container">
         <div class="table-header">
           <div class="table-title">
