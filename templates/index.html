@@ -2,7 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
     <title>SIDDHI-X | Enterprise Threat Detection Console</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -34,7 +37,7 @@
             SIDDHI-X <span class="badge-accent">DEFENSE CORE v2.4</span>
           </div>
           <div class="subtitle">
-            Security Intelligence, Detection, Defense & Heuristic Inspection
+            Security Intelligence, Detection, Defense &amp; Heuristic Inspection
           </div>
         </div>
       </div>
@@ -78,36 +81,17 @@
         >
           LIVE LOG &amp; PAYLOAD INSPECTOR (INTERACTIVE TRIAGE)
         </div>
-        <div style="display: flex; gap: 12px; flex-wrap: wrap">
+        <div class="inspector-form">
           <input
             type="text"
             id="custom-log-input"
+            class="inspector-input"
             placeholder="Paste log line or suspicious URL (e.g. 185.220.101.5 - GET /login?id=' OR '1'='1)"
-            style="
-              flex: 1;
-              min-width: 280px;
-              padding: 12px 16px;
-              border-radius: 8px;
-              border: 1px solid #1e293b;
-              background: #070e1b;
-              color: #fff;
-              font-family: &quot;JetBrains Mono&quot;, monospace;
-              font-size: 0.85rem;
-            "
           />
           <button
             id="btn-analyze"
+            class="inspector-btn"
             onclick="analyzeCustomInput()"
-            style="
-              padding: 12px 24px;
-              background: var(--cyan-glow);
-              color: #070a13;
-              font-weight: 700;
-              border: none;
-              border-radius: 8px;
-              cursor: pointer;
-              letter-spacing: 0.5px;
-            "
           >
             INSPECT LOG
           </button>
